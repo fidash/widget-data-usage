@@ -1,4 +1,4 @@
-# Monitoring Virtual Machines Widget
+# Top Tenants Data Usage
 
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/fidash/widget-data-usage/master/LICENSE)
 [![Support badge](https://img.shields.io/badge/support-askbot-yellowgreen.svg)](http://ask.fiware.org)

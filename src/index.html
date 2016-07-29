@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Top Tenant viewer</title>
+        <link rel="stylesheet" type="text/css" href="lib/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="lib/css/bootstrap-switch.min.css"/>
+        <link rel="stylesheet" type="text/css" href="lib/css/bootstrap-select.min.css"/>
+        <link rel="stylesheet" type="text/css" href="lib/css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="lib/css/tooltipster.css" />
+        <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    </head>
+    <body>
+
+        <div class="ontop">
+            <div class="mynavbar navbar navbar-default" style="z-index: 1000;">
+                <div class="row" style="margin-right: -3px">
+                    <div class="input-group pull-right hide">
+                        <input type="text" id="vm" class="form-control searcher" placeholder="Insert a Vm ID..." />
+                        <button id="vm-button" class="input-group-addon">Search</button>
+                    </div>
+
+                    <div id="switch-region" class="container-fluid switch-container">
+                        <div id="cpuSwitch" class="col-xs-3" style="text-align: center;">
+                            <input type="checkbox" name="select-charts-region" data-size="mini" data-handle-width="30" data-label-width="10" data-on-text="CPU" data-off-text="CPU" checked />
+                        </div>
+                        <div id="ramSwitch" class="col-xs-3" style="text-align: center;">
+                            <input type="checkbox" name="select-charts-region" data-size="mini" data-handle-width="30" data-label-width="10" data-on-text="RAM" data-off-text="RAM" checked />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 8px; margin-right: -17px;">
+                    <div class="col-md-12">
+                        <div id="custom-search-input">
+                            <div class="input-group">
+                                <input id="filterbox" type="text" class="form-control input-lg" placeholder="Filter" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info btn-lg" type="button">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="slidecontainer"></div>
+            </div>
+
+
+            <div id="tenantContainer" class="flexbox">
+                <!-- Divs that will hold the charts -->
+            </div>
+
+        </div>
+
+        <!--Load the AJAX API-->
+        <script src="lib/js/jquery.min.js"></script>
+        <script src="lib/js/bootstrap-switch.min.js"></script>
+        <script src="lib/js/bootstrap.min.js"></script>
+        <script src="lib/js/bootstrap-select.min.js"></script>
+        <!-- <script src="lib/js/oauth.js"></script> -->
+        <script src="lib/js/progressbar.min.js"></script>
+        <script src="lib/js/jquery.tooltipster.min.js"></script>
+        <script src="lib/js/filesize.js"></script>
+        <script src="js/FIDASHRequests.js"></script>
+        <script src="js/TenantView.js"></script>
+        <!-- <script src="js/RegionView.js"></script> -->
+        <script src="js/Monitoring.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

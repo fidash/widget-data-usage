@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<widget xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="UPM-ETSIINF" name="data-usage" version="0.1.0">
+
+  <details>
+    <title>Data Usage</title>
+    <email>mgarcia@conwet.com</email>
+    <image>images/catalogue.png</image>
+    <smartphoneimage>images/catalogueSmartphone.png</smartphoneimage>
+    <description>FIDASH widget that shows data usage</description>
+    <authors>bgrana</authors>
+  </details>
+
+  <wiring>
+    <outputendpoint name="tenant_id" type="text" label="Tenant ID" description="Sends a tenant ID." friendcode="tenant_id"/>
+  </wiring>
+
+  <preferences>
+    <preference name="min-cpu" type="text" description="Minimum CPU percentage load to display the virtualmachine" label="Minimum CPU" default="0" />
+    <preference name="min-ram" type="text" description="Minimum RAM percentage use to display the virtualmachine" label="Minimum RAM" default="0" />
+    <preference name="min-disk" type="text" description="Minimum DISK percentage use to display the virtualmachine" label="Minimum DISK" default="0" />
+    <preference name="numbermin" type="list" description="Decide if you want to show the value if, at least, one value are greater than one minimum, or if all of the values have to be greater." label="Number of minimum to show." default="0">
+      <option label="At least one" value="0"/>
+      <option label="All of them" value="1"/>
+    </preference>
+  </preferences>
+
+  <persistentvariables>
+    <variable name="cpuOn" type="text" label="CPU ON" description="" />
+    <variable name="ramOn" type="text" label="RAM ON" description="" />
+    <variable name="diskOn" type="text" label="Disk ON" description="" />
+    <variable name="closed" type="text" label="Navbar closed" description="" />
+  </persistentvariables>
+
+  <contents src="index.html" useplatformstyle="true"/>
+  <rendering height="38" width="7"/>
+</widget>

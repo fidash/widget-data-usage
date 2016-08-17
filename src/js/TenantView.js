@@ -27,7 +27,7 @@ var TenantView = (function () {
     /******************************************************************/
 
     function drawChart(name, type, data, tooltip, show) {
-        var id = name + "-" + type;
+        var id = "id-" + name + "-" + type; // Avoid CSS IDs starting with numbers
         var showC = (show) ? "" : "myhide";
 
         $("<div></div>")
@@ -78,8 +78,8 @@ var TenantView = (function () {
 
         // var uptime = measures.sysUptime.value;
 
-        var cpuText = cpuData.toFixed(2) + "% CPU load";
-        var ramText = ramData.toFixed(2) + "% RAM used";
+        var cpuText = (100*cpuData).toFixed(2) + "% CPU load";
+        var ramText = (100*ramData).toFixed(2) + "% RAM used";
 
         // If some of the data are greater than the min values, the vm will be showed, if not it will be hidden
         var hideVm = comparef(cpuData > minvalues.cpu, ramData > minvalues.ram) ? "" : "hide";
@@ -111,8 +111,8 @@ var TenantView = (function () {
             .addClass("measures-container")
             .appendTo("#" + id);
 
-        drawChart(id, "cpu", cpuData / 100, cpuText, status.cpu);
-        drawChart(id, "ram", ramData / 100, ramText, status.ram);
+        drawChart(id, "cpu", cpuData, cpuText, status.cpu);
+        drawChart(id, "ram", ramData, ramText, status.ram);
 
         return {
             id: id,

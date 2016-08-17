@@ -222,7 +222,7 @@ var Monitoring = (function () {
         FIDASHRequests.get(url, function (err, data) {
             if (err) {
                 window.console.log(err);
-                MashupPlatform.widget.log("The API seems down (Asking for regions): " + err.statusText);
+                MashupPlatform.widget.log("The API seems down (Asking for Top Tennants): " + err.statusText);
 
                 // The API are down, emulate
                 data = {
@@ -239,8 +239,8 @@ var Monitoring = (function () {
                                 "vmsActiveNum": 10,
                                 "ramAllocatedTot": 32,
                                 "vcpuAllocatedTot": 43,
-                                "ramUsedPct": 23,
-                                "cpuUsedPct": 45
+                                "ramUsedPct": 0.23,
+                                "cpuUsedPct": 0.45
                             },
                             {
                                 "ranking": 2,
@@ -248,8 +248,8 @@ var Monitoring = (function () {
                                 "vmsActiveNum": 8,
                                 "ramAllocatedTot": 22,
                                 "vcpuAllocatedTot": 33,
-                                "ramUsedPct": 13,
-                                "cpuUsedPct": 35
+                                "ramUsedPct": 0.13,
+                                "cpuUsedPct": 0.35
                             },
                             {
                                 "ranking": 1,
@@ -257,8 +257,8 @@ var Monitoring = (function () {
                                 "vmsActiveNum": 8,
                                 "ramAllocatedTot": 22,
                                 "vcpuAllocatedTot": 33,
-                                "ramUsedPct": 13,
-                                "cpuUsedPct": 35
+                                "ramUsedPct": 0.13,
+                                "cpuUsedPct": 0.345
                             }
                         ]
                     }

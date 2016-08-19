@@ -33,9 +33,10 @@
           included: false },
 
         // Source code
-        'src/js/HostView.js',
-        'src/js/RegionView.js',
+        'src/js/TenantView.js',
+        'src/js/main.js',
         'src/js/Monitoring.js',
+        'src/js/FIDASHRequests.js',
 
         // Spec files
         'src/test/js/*Spec.js'

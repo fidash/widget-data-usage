@@ -15,15 +15,6 @@
   </wiring>
 
   <preferences>
-    <preference name="min-cpu-pct" type="text" description="Minimum CPU percentage load to display the tennant" label="Minimum %CPU" default="0" />
-    <preference name="min-ram-pct" type="text" description="Minimum RAM percentage use to display the tennant" label="Minimum %RAM" default="0" />
-    <preference name="min-vcpu" type="text" description="Minimum number of vCPUs to display the tennant" label="Minimum vCPU" default="0" />
-    <preference name="min-vms" type="text" description="Minimum number of VMs to display the tennant" label="Minimum VMs" default="0" />
-    <preference name="min-ram" type="text" description="Minimum number RAM MBs to display the tennant" label="Minimum RAM" default="0" />
-    <preference name="numbermin" type="list" description="Decide if you want to show the value if, at least, one value are greater than one minimum, or if all of the values have to be greater." label="Number of minimum to show." default="0">
-      <option label="At least one" value="0"/>
-      <option label="All of them" value="1"/>
-    </preference>
   </preferences>
 
   <persistentvariables>
@@ -33,9 +24,10 @@
     <variable name="cpuPctOn" type="text" label="CPU PCT ON" description="" />
     <variable name="vmsOn" type="text" label="VMs ON" description="" />
     <variable name="vcpuOn" type="text" label="vCPUs ON" description="" />
+    <variable name="sort" type="text" label="Type of sorting" description="" />
     <variable name="closed" type="text" label="Navbar closed" description="" />
   </persistentvariables>
 
   <contents src="index.html" useplatformstyle="true"/>
-  <rendering height="38" width="12"/>
+  <rendering height="46" width="14"/>
 </widget>

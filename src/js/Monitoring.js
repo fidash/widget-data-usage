@@ -44,6 +44,7 @@ var Monitoring = (function () {
             ramPctOn: MashupPlatform.widget.getVariable("ramPctOn"),
             vmsOn: MashupPlatform.widget.getVariable("vmsOn"),
             vcpuOn: MashupPlatform.widget.getVariable("vcpuOn"),
+            sort: MashupPlatform.widget.getVariable("sort"),
             closed: MashupPlatform.widget.getVariable("closed")
         };
 
@@ -75,75 +76,6 @@ var Monitoring = (function () {
 
         return value;
     };
-
-/*    var updateHiddenVms = function updateHiddenVms() {
-        // Use search bar?
-        var mincpuPct = this.minvalues.cpuPct,
-            minramPct = this.minvalues.ramPct,
-            minvcpu = this.minvalues.vcpu,
-            minvms = this.minvalues.vms,
-            minram = this.minvalues.ram;
-
-        $(".vmChart").each(function (index, tenant) {
-            var id = tenant.id; // $(tenant).prop("id");
-            var data = this.options.data[id];
-            if (!data) {
-                return;
-            }
-            
-            var ram = parseFloat(data.ram);
-            var cpuPct = parseFloat(data.cpuPct);
-            var ramPct = parseFloat(data.ramPct);
-            var vcpu = parseFloat(data.vcpu);
-            var vms = parseFloat(data.vms);
-
-            var $elem = $(tenant);
-            if (this.comparef(ram > minram, 
-            	              cpuPct > mincpuPct, 
-            	              ramPct > minramPct,
-            	              vms > minvms,
-            	              vcpu > minvcpu)) {
-                $elem.show();
-            } else {
-                $elem.hide();
-            }
-        }.bind(this));
-    };*/
-
-/*    var handlePreferences = function handlePreferences() {
-        var checkValue = function checkValue(value, name) {
-            if (Number.isNaN(value)) {
-                MashupPlatform.widget.log("The preference for " + name + " is not a number.");
-                return 0;
-            }
-
-            // if (value < 0 || value > 100) {
-            //     MashupPlatform.widget.log("The preference for " + name + " are not in the limits");
-            //     return 0;
-            // }
-
-            return value;
-        };
-
-        var cpuPct = checkValue(parseFloat(MashupPlatform.prefs.get("min-cpu-pct")) /100 || 0, "CPU_p");
-        var ramPct = checkValue(parseFloat(MashupPlatform.prefs.get("min-ram-pct")) /100 || 0, "RAM_p");
-        var vcpu = checkValue(parseInt(MashupPlatform.prefs.get("min-vcpu")) || 0, "vCPUs");
-        var vms = checkValue(parseInt(MashupPlatform.prefs.get("min-vms")) || 0, "VMs");
-        var ram = checkValue(parseInt(MashupPlatform.prefs.get("min-ram")) || 0, "RAM");
-
-        this.minvalues = {
-            cpuPct: cpuPct,
-            ramPct: ramPct,
-            vcpu: vcpu,
-            vms: vms,
-            ram: ram
-        };
-
-        this.comparef = (parseInt(MashupPlatform.prefs.get("numbermin")) === 1) ? and : or;
-
-        updateHiddenVms.call(this);
-    };*/
-
 
     function setEvents() {
         $("#filterbox").keyup(function () {
@@ -195,16 +127,68 @@ var Monitoring = (function () {
                 $("." + type).addClass("myhide");
             }
         }.bind(this));
+
+        $(".sort").on("click", function (e) {
+            var rawid = "#" + e.target.id;
+            var id = e.target.id.replace(/Sort$/, "");
+            var rawmode = e.target.classList[3];
+            var mode = rawmode.replace(/^fa-/, "");
+            var oid = this.options.orderby;
+            var orawid = "#" + oid + "Sort";
+            var newmode = "";
+            if (id === oid) {
+                if (mode === "sort") {
+                    newmode = "sort-desc";
+                    $(rawid).removeClass("fa-sort").addClass("fa-sort-desc");
+                } else if (mode === "sort-desc") {
+                    newmode = "sort-asc";
+                    $(rawid).removeClass("fa-sort-desc").addClass("fa-sort-asc");
+                } else {
+                    newmode = "sort-desc";
+                    $(rawid).removeClass("fa-sort-asc").addClass("fa-sort-desc");
+                }
+            } else {
+                newmode = "sort-desc";
+                if (oid !== "") {
+                    var oldclass = $(orawid).attr("class").split(/\s+/)[3];
+                    $(orawid).removeClass(oldclass).addClass("fa-sort");
+                }
+
+                $(rawid).removeClass(rawmode).addClass("fa-sort-desc");
+            }
+
+            this.options.orderby = id;
+            this.options.orderinc = newmode;
+            this.variables.sort.set(id + "//" + newmode);
+            sortTenants.call(this);
+        }.bind(this));
     }
 
     var sortTenants = function sortTenants() {
+    	var by = this.options.orderby;
+        var inc = this.options.orderinc;
         var data = this.options.data;
 
-        $(".vmChart").sort(function (a, b) {
-            var dataA = data[a.id],
-                dataB = data[b.id];
+        if (inc === "") {
+            return;
+        }
 
-            return dataA.ranking - dataB.ranking;
+        $(".vmChart").sort(function (a, b) {
+        	var idA = a.id.substring(a.id.indexOf("-") + 1);  // IDs are" id-rank_tenantId
+        	var idB = b.id.substring(b.id.indexOf("-") + 1);
+            var dataA = data[idA].data,
+                dataB = data[idB].data;
+            var itemA = dataA[by],
+                itemB = dataB[by];
+            if (inc === "sort-asc") {
+                return parseFloat(itemA) - parseFloat(itemB);
+            }
+            return parseFloat(itemB) - parseFloat(itemA);
+
+            // var dataA = data[a.id],
+            //     dataB = data[b.id];
+
+            // return dataA.ranking - dataB.ranking;
         }).appendTo("#tenantContainer");
     };
 
@@ -232,6 +216,15 @@ var Monitoring = (function () {
         } else {
             $(".slidecontainer").removeClass("closed").addClass("open");
             $("#regionContainer").css("margin-top", "93px");
+        }
+
+        var sort = this.variables.sort.get();
+        var matchS = sort.match(/^(.+)\/\/(.+)$/);
+        if (sort && matchS) {
+            $("#" + matchS[1] + "sort").addClass("fa-" + matchS[2]);
+            this.options.orderby = matchS[1];
+            this.options.orderinc = matchS[2];
+            //sortTenants.call(this);
         }
     }
 

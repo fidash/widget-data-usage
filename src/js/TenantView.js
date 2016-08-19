@@ -78,6 +78,7 @@ var TenantView = (function () {
                 id: id,
                 ranking: ranking,
                 data: {
+                    ranking: ranking,
                     vms: NaN,
                     ram: NaN,
                     vcpu: NaN,
@@ -136,9 +137,10 @@ var TenantView = (function () {
         drawChart(id, "cpuPct", cpuPctData, cpuPctText, status.cpuPct, topValues.cpuPct);  // Change to 1 if 100% is never surpassed
 
         return {
-            id: tenantId,
+            id: id,
             ranking: ranking,
             data: {
+                ranking: ranking,
                 vms: vmsData,
                 ram: ramData,
                 vcpu: vcpuData,

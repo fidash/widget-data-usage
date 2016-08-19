@@ -8,12 +8,11 @@ var TenantView = (function () {
     /******************************************************************/
 
     var types = {
-        cpu: {
-            color: "#009EFF"
-        },
-        ram: {
-            color: "#C971CC"
-        }
+        vms: { color: "#60d868" },
+        ram: { color: "#C971CC" },
+        vcpu: { color: "#009EFF" },
+        ramPct: { color: "#d9534f" },
+        cpuPct: { color: "#cc9b5e" }
     };
 
     /*****************************************************************
@@ -26,19 +25,20 @@ var TenantView = (function () {
     /*                P R I V A T E   F U N C T I O N S               */
     /******************************************************************/
 
-    function drawChart(name, type, data, tooltip, show) {
-        var id = "id-" + name + "-" + type; // Avoid CSS IDs starting with numbers
+    function drawChart(name, type, data, tooltip, show, max) {
+        var htmlId = "id-" + name + "-" + type; // Avoid HTML IDs starting with numbers
         var showC = (show) ? "" : "myhide";
+        var scaledValue = (max === 0) ? data : data/max;
 
         $("<div></div>")
-            .prop("id", id)
+            .prop("id", htmlId)
             .addClass(type + " measure " + showC)
             .css("color", types[type].color)
-            .appendTo("#" + name + "-container")
+            .appendTo("#id-" + name + "-container")  // Parent ID has been added 'id-' and '-container'
             .prop("title", tooltip)
             .tooltipster();
 
-        var progress = new ProgressBar.Line("#" + id, {
+        var progress = new ProgressBar.Line("#" + htmlId, {
             color: types[type].color,
             trailColor: "#ddd",
             strokeWidth: 5,
@@ -47,55 +47,70 @@ var TenantView = (function () {
             }
         });
 
-        progress.animate(data);
+        progress.animate(scaledValue);
+        //progress.animate(data);
     }
 
     /******************************************************************/
     /*                 P U B L I C   F U N C T I O N S                */
     /******************************************************************/
 
-    TenantView.prototype.build = function (data, status, minvalues, comparef, filtertext) {
+    //TenantView.prototype.build = function (data, status, minvalues, comparef, filtertext, topValues) {
+    TenantView.prototype.build = function (data, status, topValues, comparef, filtertext) {
         var ranking = data.ranking;
-        var id = data.tenantId;
-
+        var id =  ranking + "_" + data.tenantId;    // Avoid duplicated IDs adding the ranking
+        var tenantId = data.tenantId;
+        var htmlId = "id-" + id;                    // Avoid HTML IDs starting with numbers
+        
         // parseFloat but fixed
-        var cpuData = parseFloat(data.cpuUsedPct);
-        var ramData = parseFloat(data.ramUsedPct);
+        var ramData = parseFloat(data.ramAllocatedTot);   // Received in MB
+        var cpuPctData = parseFloat(data.cpuUsedPct);     // % as float 0-100
+        var ramPctData = parseFloat(data.ramUsedPct);     // % as float 0-100
+        var vcpuData = parseFloat(data.vcpuAllocatedTot); // Absolute number
+        var vmsData = parseFloat(data.vmsActiveNum);      // Absolute number
 
-        if (isNaN(cpuData) && isNaN(ramData)) {
+        if (isNaN(ramData) && 
+            isNaN(cpuPctData) && 
+            isNaN(ramPctData) && 
+            isNaN(vcpuData) && 
+            isNaN(vmsData)) {
             return {
                 id: id,
                 ranking: ranking,
                 data: {
-                    cpu: NaN,
-                    ram: NaN
+                    vms: NaN,
+                    ram: NaN,
+                    vcpu: NaN,
+                    ramPct: NaN,
+                    cpuPct: NaN
                 }
             };
         }
 
-        cpuData = (cpuData < 0 ? 0 : cpuData) || 0.0;
+        // Normalizing
         ramData = (ramData < 0 ? 0 : ramData) || 0.0;
+        cpuPctData = (cpuPctData < 0 ? 0 : cpuPctData) || 0.0;
+        ramPctData = (ramPctData < 0 ? 0 : ramPctData) || 0.0;
+        vcpuData = (vcpuData < 0 ? 0 : vcpuData) || 0.0;
+        vmsData = (vmsData < 0 ? 0 : vmsData) || 0.0;
 
-        // var uptime = measures.sysUptime.value;
+        var ramText = (ramData/1000).toFixed(2) + "GBs of RAM allocated";
+        var vcpuText = vcpuData + " vCPUs allocated";
+        var ramPctText = ramPctData.toFixed(2) + "% of RAM used (average on last 24 hours)";
+        var cpuPctText = cpuPctData.toFixed(2) + "% of CPU used (average on last 24 hours)";
+        var vmsText = vmsData + " instantiated VMs";
 
-        var cpuText = (100*cpuData).toFixed(2) + "% CPU load";
-        var ramText = (100*ramData).toFixed(2) + "% RAM used";
-
-        // If some of the data are greater than the min values, the vm will be showed, if not it will be hidden
-        var hideVm = comparef(cpuData > minvalues.cpu, ramData > minvalues.ram) ? "" : "hide";
-        var hideFilter = filtertext !== "" && id.toLowerCase().indexOf(filtertext) < 0 ? "filterhide" : "";
-
-        var title = "Tenant " + data.tenantId + " with ranking " + ranking + ", " +
-                data.vmsActiveNum + " vms active, " + data.ramAllocatedTot + " RAM allocated and " + data.vcpuAllocatedTot + " VCPU allocated.";
+        var title = "#" + ranking + " Tenant " + tenantId + ": " + 
+                vmsText + ", " + ramText + ", " + vcpuText + ", " + ramPctText + ", " + cpuPctText;
 
         $("<div></div>")
-            .prop("id", id)
-            .addClass("flexitem vmChart noselect " + hideVm + " " + hideFilter)
+            .prop("id", htmlId)
+            .addClass("flexitem vmChart noselect ")
             .appendTo("#tenantContainer")
             .prop("title", title)
             .click(function () {
                 var dataToSend = {
-                    id: data.tenantId
+                    id: id.substring(id.indexOf("_") + 1)  // Remove the rank at the beginning of the ID
                 };
 
                 MashupPlatform.wiring.pushEvent("tenant_id", JSON.stringify(dataToSend));
@@ -103,23 +118,32 @@ var TenantView = (function () {
             .tooltipster({
                 position: "bottom"
             });
-        $("<div>" + id + "</div>")
-            .addClass("regionTitle")
-            .appendTo("#" + id);
+        $("<div>" + "#" + data.ranking + "</div>")  
+            .addClass("tenantRank")
+            .appendTo("#" + htmlId);
+        $("<div>" + tenantId + "</div>")  
+            .addClass("tenantTitle")
+            .appendTo("#" + htmlId);
         $("<div></div>")
-            .prop("id", id + "-container")
+            .prop("id", htmlId + "-container")
             .addClass("measures-container")
-            .appendTo("#" + id);
+            .appendTo("#" + htmlId);
 
-        drawChart(id, "cpu", cpuData, cpuText, status.cpu);
-        drawChart(id, "ram", ramData, ramText, status.ram);
+        drawChart(id, "vms", vmsData, vmsText, status.vms, topValues.vms);
+        drawChart(id, "ram", ramData, ramText, status.ram, topValues.ram);
+        drawChart(id, "vcpu", vcpuData, vcpuText, status.vcpu, topValues.vcpu);
+        drawChart(id, "ramPct", ramPctData, ramPctText, status.ramPct, topValues.ramPct);  // Change to 1 if 100% is never surpassed
+        drawChart(id, "cpuPct", cpuPctData, cpuPctText, status.cpuPct, topValues.cpuPct);  // Change to 1 if 100% is never surpassed
 
         return {
-            id: id,
+            id: tenantId,
             ranking: ranking,
             data: {
-                cpu: cpuData,
-                ram: ramData
+                vms: vmsData,
+                ram: ramData,
+                vcpu: vcpuData,
+                ramPct: ramPctData,
+                cpuPct: cpuPctData
             }
         };
     };

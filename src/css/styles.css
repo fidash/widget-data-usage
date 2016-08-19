@@ -36,7 +36,7 @@ body {
 
 .measure {
   /* margin-top: -20px; */
-  margin-right: 3px;
+  margin-right: 5px;
 
   width: 120px;
   display: inline-block;
@@ -67,7 +67,7 @@ body {
 .vmChart {
   overflow: hidden;
   /* width: 100%; */
-  max-width: 505px;
+  max-width: 785px;
   margin: 5px;
   margin-bottom: 3px;
   vertical-align: middle;
@@ -104,16 +104,27 @@ body {
   user-select: none;          /* Likely future */
 }
 
-.regionTitle {
+.tenantTitle {
   text-align: center;
   font-weight: bold;
   width: 130px;
   overflow: hidden;
   font-size: 11px;
-  margin-right: 3px;
+  margin-right: 5px;
   display: inline-block;
   margin-top: 1px;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tenantRank {
+  text-align: right;
+  width: 20px;
+  overflow: hidden;
+  font-size: 11px;
+  margin-right: 5px;
+  display: inline-block;
+  margin-top: 1px;
   white-space: nowrap;
 }
 
@@ -251,13 +262,24 @@ body {
   visibility: hidden;
 }
 
-
-#cpuSwitch .bootstrap-switch-handle-on {
-  background-color: #009EFF;
+#vmsSwitch .bootstrap-switch-handle-on {
+  background-color: #60d868;
 }
 
 #ramSwitch .bootstrap-switch-handle-on {
   background-color: #C971CC;
+}
+
+#vcpuSwitch .bootstrap-switch-handle-on {
+  background-color: #009EFF;
+}
+
+#ramPctSwitch .bootstrap-switch-handle-on {
+  background-color: #d9534f;
+}
+
+#cpuPctSwitch .bootstrap-switch-handle-on {
+  background-color: #cc9b5e;
 }
 
 #diskSwitch .bootstrap-switch-handle-on {

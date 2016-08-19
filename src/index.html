@@ -20,26 +20,20 @@
                     </div>
 
                     <div id="switch-region" class="container-fluid switch-container">
-                        <div id="cpuSwitch" class="col-xs-3" style="text-align: center;">
-                            <input type="checkbox" name="select-charts-region" data-size="mini" data-handle-width="30" data-label-width="10" data-on-text="CPU" data-off-text="CPU" checked />
+                        <div id="vmsSwitch" class="col-xs-2" style="text-align: center;">
+                            <input type="checkbox" name="select-charts-region" data-size="mini" data-handle-width="35" data-label-width="10" data-on-text="VMs" data-off-text="VMs" data-measure="vms" checked />
                         </div>
-                        <div id="ramSwitch" class="col-xs-3" style="text-align: center;">
-                            <input type="checkbox" name="select-charts-region" data-size="mini" data-handle-width="30" data-label-width="10" data-on-text="RAM" data-off-text="RAM" checked />
+                        <div id="ramSwitch" class="col-xs-2" style="text-align: center;">
+                            <input type="checkbox" name="select-charts-region" data-size="mini" data-handle-width="35" data-label-width="10" data-on-text="RAM" data-off-text="RAM" data-measure="ram" checked />
                         </div>
-                    </div>
-                </div>
-
-                <div class="row" style="margin-top: 8px; margin-right: -17px;">
-                    <div class="col-md-12">
-                        <div id="custom-search-input">
-                            <div class="input-group">
-                                <input id="filterbox" type="text" class="form-control input-lg" placeholder="Filter" />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-info btn-lg" type="button">
-                                        <i class="glyphicon glyphicon-search"></i>
-                                    </button>
-                                </span>
-                            </div>
+                        <div id="vcpuSwitch" class="col-xs-2" style="text-align: center;">
+                            <input type="checkbox" name="select-charts-region" data-size="mini" data-handle-width="35" data-label-width="10" data-on-text="vCPUs" data-off-text="vCPUs" data-measure="vcpu" checked />
+                        </div>
+                        <div id="ramPctSwitch" class="col-xs-2" style="text-align: center;">
+                            <input type="checkbox" name="select-charts-region" data-size="mini" data-handle-width="35" data-label-width="10" data-on-text="%RAM" data-off-text="%RAM" data-measure="ramPct" checked />
+                        </div>
+                        <div id="cpuPctSwitch" class="col-xs-2" style="text-align: center;">
+                            <input type="checkbox" name="select-charts-region" data-size="mini" data-handle-width="35" data-label-width="10" data-on-text="%CPU" data-off-text="%CPU" data-measure="cpuPct" checked />
                         </div>
                     </div>
                 </div>
@@ -48,7 +42,6 @@
             <div class="slide">
                 <div class="slidecontainer"></div>
             </div>
-
 
             <div id="tenantContainer" class="flexbox">
                 <!-- Divs that will hold the charts -->

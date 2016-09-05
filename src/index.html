@@ -19,11 +19,7 @@
                         <button id="vm-button" class="input-group-addon">Search</button>
                     </div>
 
-                    <div id="switch-region" class="container-fluid switch-container">
-                        <!--div id="rankingLabel" class="col-xs-2" style="text-align: center;">
-                            <div class="tenantTitle">Ranking</div>
-                            <i id="rankingSort" class="sort fa fa-fw fa-sort"></i>
-                        </div-->
+                    <!--div id="switch-region" class="container-fluid switch-container">
                         <div id="vmsSwitch" class="col-xs-2" style="text-align: center;">
                             <input type="checkbox" name="select-charts-region" data-size="mini" data-handle-width="35" data-label-width="10" data-on-text="VMs" data-off-text="VMs" data-measure="vms" checked />
                             <i id="vmsSort" class="sort fa fa-fw fa-sort"></i>
@@ -43,6 +39,17 @@
                         <div id="cpuPctSwitch" class="col-xs-2" style="text-align: center;">
                             <input type="checkbox" name="select-charts-region" data-size="mini" data-handle-width="35" data-label-width="10" data-on-text="%CPU" data-off-text="%CPU" data-measure="cpuPct" checked />
                             <i id="cpuPctSort" class="sort fa fa-fw fa-sort"></i>
+                        </div>
+                    </div-->
+
+                    <div id="header-top-tenants" class="container-fluid switch-container">
+                        <p>Sort by:</p>
+                        <div class="btn-group btn-group-justified" role="group">
+                            <button id="vmsSort" type="button" class="btn btn-default">VMs</button>
+                            <button id="ramSort" type="button" class="btn btn-default">RAM</button>
+                            <button id="vcpuSort" type="button" class="btn btn-default">vCPUs</button>
+                            <button id="ramPctSort" type="button" class="btn btn-default">VMs</button>
+                            <button id="cpuPctSort" type="button" class="btn btn-default">RAM</button>
                         </div>
                     </div>
                 </div>

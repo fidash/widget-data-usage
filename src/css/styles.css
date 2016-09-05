@@ -105,7 +105,7 @@
 }
 
 .tenantTitle {
-  text-align: center;
+  text-align: left;
   font-weight: bold;
   width: 200px;
   overflow: hidden;
@@ -262,28 +262,32 @@
   visibility: hidden;
 }
 
-#vmsSwitch .bootstrap-switch-handle-on {
+#vmsSort, #vmsSwitch .bootstrap-switch-handle-on {
   background-color: #60d868;
 }
 
-#ramSwitch .bootstrap-switch-handle-on {
+#ramSort, #ramSwitch .bootstrap-switch-handle-on {
   background-color: #C971CC;
 }
 
-#vcpuSwitch .bootstrap-switch-handle-on {
+#vcpuSort, #vcpuSwitch .bootstrap-switch-handle-on {
   background-color: #009EFF;
 }
 
-#ramPctSwitch .bootstrap-switch-handle-on {
+#ramPctSort, #ramPctSwitch .bootstrap-switch-handle-on {
   background-color: #d9534f;
 }
 
-#cpuPctSwitch .bootstrap-switch-handle-on {
+#cpuPctSort, #cpuPctSwitch .bootstrap-switch-handle-on {
   background-color: #cc9b5e;
 }
 
-#diskSwitch .bootstrap-switch-handle-on {
-  background-color: #60D868;
+.btn {
+  border-width: 0px;
+}
+.btn-group-justified{
+  display: inline;
+  margin-left: 165px;
 }
 
 .bootstrap-switch-handle-off {

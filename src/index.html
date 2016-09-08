@@ -14,10 +14,10 @@
         <div class="ontop">
             <div class="mynavbar navbar navbar-default" style="z-index: 1000;">
                 <div class="row" style="margin-right: -3px">
-                    <div class="input-group pull-right hide">
+                    <!--div class="input-group pull-right hide">
                         <input type="text" id="vm" class="form-control searcher" placeholder="Insert a Vm ID..." />
                         <button id="vm-button" class="input-group-addon">Search</button>
-                    </div>
+                    </div-->
 
                     <!--div id="switch-region" class="container-fluid switch-container">
                         <div id="vmsSwitch" class="col-xs-2" style="text-align: center;">
@@ -43,13 +43,15 @@
                     </div-->
 
                     <div id="header-top-tenants" class="container-fluid switch-container">
-                        <p>Sort by:</p>
-                        <div class="btn-group btn-group-justified" role="group">
-                            <button id="vmsSort" type="button" class="btn btn-default">VMs</button>
-                            <button id="ramSort" type="button" class="btn btn-default">RAM</button>
-                            <button id="vcpuSort" type="button" class="btn btn-default">vCPUs</button>
-                            <button id="ramPctSort" type="button" class="btn btn-default">VMs</button>
-                            <button id="cpuPctSort" type="button" class="btn btn-default">RAM</button>
+                        <label>Sort by:</label>
+                        <div id="header-buttons-container">
+                            <div class="btn-group btn-group-justified" role="group">
+                                <button id="vmsSort" type="button" class="fa btn btn-default sort" data-measure="vmsActiveNum"> VMs</button>
+                                <button id="ramSort" type="button" class="fa btn btn-default sort" data-measure="ramAllocatedTot"> RAM</button>
+                                <button id="vcpuSort" type="button" class="fa btn btn-default sort" data-measure="vcpuAllocatedTot"> vCPUs</button>
+                                <button id="ramPctSort" type="button" class="fa btn btn-default sort" data-measure="ramUsedPct"> %RAM</button>
+                                <button id="cpuPctSort" type="button" class="fa btn btn-default sort" data-measure="cpuUsedPct"> %CPU</button>
+                            </div>
                         </div>
                     </div>
                 </div>

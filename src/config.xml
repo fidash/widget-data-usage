@@ -18,13 +18,7 @@
   </preferences>
 
   <persistentvariables>
-
-    <variable name="ramOn" type="text" label="RAM ON" description="" />
-    <variable name="ramPctOn" type="text" label="RAM PCT ON" description="" />
-    <variable name="cpuPctOn" type="text" label="CPU PCT ON" description="" />
-    <variable name="vmsOn" type="text" label="VMs ON" description="" />
-    <variable name="vcpuOn" type="text" label="vCPUs ON" description="" />
-    <variable name="sort" type="text" label="Type of sorting" description="" />
+    <variable name="sort" type="text" label="Type of sorting" description="" default="vmsActiveNum"/>
     <variable name="closed" type="text" label="Navbar closed" description="" />
   </persistentvariables>
 

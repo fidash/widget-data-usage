@@ -282,12 +282,27 @@
   background-color: #cc9b5e;
 }
 
-.btn {
-  border-width: 0px;
+#header-top-tenants {
+  padding-right: 0px;
 }
-.btn-group-justified{
+
+#header-top-tenants>label{
   display: inline;
-  margin-left: 165px;
+  float: left;
+  width: 225px;
+}
+
+#header-buttons-container{
+  display: inline;
+  float: left
+}
+
+#header-buttons-container>div{
+  width: 625px;
+}
+
+#header-buttons-container>div>button{
+  width: 20%;
 }
 
 .bootstrap-switch-handle-off {

@@ -25,14 +25,13 @@ var TenantView = (function () {
     /*                P R I V A T E   F U N C T I O N S               */
     /******************************************************************/
 
-    function drawChart(name, type, data, tooltip, show, max) {
+    function drawChart(name, type, data, tooltip, max) {
         var htmlId = "id-" + name + "-" + type; // Avoid HTML IDs starting with numbers
-        var showC = (show) ? "" : "myhide";
         var scaledValue = (max === 0) ? data : data/max;
 
         $("<div></div>")
             .prop("id", htmlId)
-            .addClass(type + " measure " + showC)
+            .addClass(type + " measure ")
             .css("color", types[type].color)
             .appendTo("#id-" + name + "-container")  // Parent ID has been added 'id-' and '-container'
             .prop("title", tooltip)
@@ -56,7 +55,7 @@ var TenantView = (function () {
     /******************************************************************/
 
     //TenantView.prototype.build = function (data, status, minvalues, comparef, filtertext, topValues) {
-    TenantView.prototype.build = function (data, status, topValues, comparef, filtertext) {
+    TenantView.prototype.build = function (data, topValues, comparef, filtertext) {
         var ranking = data.ranking;
         var id =  ranking + "_" + data.tenantId;    // Avoid duplicated IDs adding the ranking
         var tenantId = data.tenantId;
@@ -68,6 +67,7 @@ var TenantView = (function () {
         var ramPctData = parseFloat(data.ramUsedPct);     // % as float 0-100
         var vcpuData = parseFloat(data.vcpuAllocatedTot); // Absolute number
         var vmsData = parseFloat(data.vmsActiveNum);      // Absolute number
+        var regionsData = data.regions;                   // Array
 
         if (isNaN(ramData) && 
             isNaN(cpuPctData) && 
@@ -100,9 +100,14 @@ var TenantView = (function () {
         var ramPctText = ramPctData.toFixed(2) + "% of RAM used (average on last 24 hours)";
         var cpuPctText = cpuPctData.toFixed(2) + "% of CPU used (average on last 24 hours)";
         var vmsText = vmsData + " instantiated VMs";
+        var regionsText = "Regions: ";
+        $.each(regionsData, function (index, value) {
+            regionsText = regionsText.concat((index === 0) ? "" : ", ").concat(value);
+        });
 
         var title = "#" + ranking + " Tenant " + tenantId + ": " + 
-                vmsText + ", " + ramText + ", " + vcpuText + ", " + ramPctText + ", " + cpuPctText;
+                vmsText + ", " + ramText + ", " + vcpuText + ", " + 
+                ramPctText + ", " + cpuPctText + ", " + regionsText;
 
         $("<div></div>")
             .prop("id", htmlId)
@@ -130,11 +135,11 @@ var TenantView = (function () {
             .addClass("measures-container")
             .appendTo("#" + htmlId);
 
-        drawChart(id, "vms", vmsData, vmsText, status.vms, topValues.vms);
-        drawChart(id, "ram", ramData, ramText, status.ram, topValues.ram);
-        drawChart(id, "vcpu", vcpuData, vcpuText, status.vcpu, topValues.vcpu);
-        drawChart(id, "ramPct", ramPctData, ramPctText, status.ramPct, topValues.ramPct);  // Change to 1 if 100% is never surpassed
-        drawChart(id, "cpuPct", cpuPctData, cpuPctText, status.cpuPct, topValues.cpuPct);  // Change to 1 if 100% is never surpassed
+        drawChart(id, "vms", vmsData, vmsText, topValues.vms);
+        drawChart(id, "ram", ramData, ramText, topValues.ram);
+        drawChart(id, "vcpu", vcpuData, vcpuText, topValues.vcpu);
+        drawChart(id, "ramPct", ramPctData, ramPctText, topValues.ramPct);  // Change to 1 if 100% is never surpassed
+        drawChart(id, "cpuPct", cpuPctData, cpuPctText, topValues.cpuPct);  // Change to 1 if 100% is never surpassed
 
         return {
             id: id,

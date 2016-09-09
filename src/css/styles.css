@@ -67,7 +67,7 @@
 .vmChart {
   overflow: hidden;
   /* width: 100%; */
-  /*max-width: 785px;*/
+  max-width: 855px;
   margin: 5px;
   margin-bottom: 3px;
   vertical-align: middle;
@@ -133,11 +133,14 @@
 }
 
 .ontop {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10000 !important;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
 
 .filterhide {
@@ -149,26 +152,7 @@
   transform: translate(1%, 277%);
 }
 
-.flexbox {
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  -webkit-align-content: center;
-  -ms-flex-line-pack: center;
-  align-content: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
+.flexbox {flex-shrink: 1;flex-grow: 1;overflow: auto;height: 0;}
 
 .flexitem {
   -webkit-order: 0;

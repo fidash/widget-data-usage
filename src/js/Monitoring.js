@@ -125,14 +125,27 @@ var Monitoring = (function () {
         var sort = this.variables.sort.get();
         var url = baseUrl + (isValidSortingPref(sort) ? ("?sort=" +  sort) : "");
 
-        FIDASHRequests.get(url, function (err, data) {
+        /*FIDASHRequests.get(url, function (err, data) {
             if (err) {
                 window.console.log(err);
                 MashupPlatform.widget.log("The API seems down (Asking for Top Tennants): " + err.statusText);
                 return;
             }
             drawTenants.call(this, data._embedded.tenants);
-        }.bind(this));
+        }.bind(this));*/
+
+        MashupPlatform.http.makeRequest.call(this,url, {
+            method: "GET",
+            onSuccess: (function (response) {
+		var data = JSON.parse(response.responseText);
+                drawTenants.call(this, data._embedded.tenants);
+            }).bind(this),
+            onFailure: (function (response) {
+                window.console.log(response);
+                MashupPlatform.widget.log("The API seems down (Asking for Top Tennants): " + response.statusText);
+                return;
+            }).bind(this)
+        });
     };
 
     function calculateTopValues (tenants) {
